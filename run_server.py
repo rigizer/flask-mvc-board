@@ -1,4 +1,4 @@
-import pymysql          # pip3 install pymysql
+import pymysql                                                  # pip3 install pymysql
 
 from flask import Flask, render_template, request, redirect     # pip3 install flask
 
