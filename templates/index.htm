@@ -65,19 +65,41 @@
 
 	<script>
 		$(document).ready(function () {
+			let loginIdHtml = `
+				<div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert" id="inputIdAlert">
+					<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+					<div>아이디를 입력하세요</div>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			`;
+
+			let loginPwHtml = `
+				<div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert" id="inputPwAlert">
+					<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+					<div>비밀번호를 입력하세요</div>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			`;
+			
+			$("#loginModal").on("show.bs.modal", function () {
+				$('#loginIdDiv').html('');
+				$('#loginPwDiv').html('');
+			});
+
 			$("#loginModal").on("shown.bs.modal", function () {
 				$('#login-id').focus();
-				$('#inputIdAlert').hide();
 			});
 
 			$("#login-id").on("keyup", function (key) {
 				if (key.keyCode == 13) {
 					if ($("#login-id").val().trim() == "") {
-						$("#inputIdAlert").show();
 						$('#login-id').focus();
+						if ($("#loginIdDiv").children().length == 0) {
+							$("#loginIdDiv").html(loginIdHtml).hide().fadeIn(500);
+						}
 					} else {
 						$('#login-pw').focus();
-						$("#inputIdAlert").hide();
+						$("#inputIdAlert").alert('close');
 					}
 				}
 			});
@@ -85,21 +107,31 @@
 			$("#login-pw").on("keyup", function (key) {
 				if (key.keyCode == 13) {
 					if ($("#login-pw").val().trim() == "") {
-						$("#inputPwAlert").show();
 						$('#login-pw').focus();
+						if ($("#loginPwDiv").children().length == 0) {
+							$("#loginPwDiv").html(loginPwHtml).hide().fadeIn(500);
+						}
 					} else {
-						$("#inputPwAlert").hide();
+						$("#inputPwAlert").alert('close');
 					}
 				}
 			});
 
+			let testHtml = `
+				<div class="alert alert-danger d-flex align-items-center alert-dismissible fade show in" role="alert" id="testAlert">
+					<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+					<div>테스트 Alert 입니다.</div>
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				</div>
+			`;
+
 			$("#showBtn").click(function () {
-				console.log('표시 클릭');
-				$("#testAlert").show();
+				if ($("#testDiv").children().length == 0) {
+					$("#testDiv").html(testHtml).hide().fadeIn(500);
+				}
 			});
 
 			$("#hideBtn").click(function () {
-				console.log('닫기 클릭');
 				$("#testAlert").alert('close');
 			});
 		});
@@ -154,14 +186,8 @@
 								<path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
 							</symbol>
 						</svg>
-						<div class="alert alert-danger d-flex align-items-center" role="alert" id="inputIdAlert">
-							<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-							<div>아이디를 입력하세요</div>
-						</div>
-						<div class="alert alert-danger d-flex align-items-center" role="alert" id="inputPwAlert">
-							<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-							<div>비밀번호를 입력하세요</div>
-						</div>
+						<div id="loginIdDiv"></div>
+						<div id="loginPwDiv"></div>
 						<form>
 							<div class="mb-3">
 								<span class="badge bg-secondary mb-2">아이디</span>
@@ -184,10 +210,7 @@
 	</nav>
 
 	<div class="container mt-4">
-		<div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert" id="testAlert" style="display:none;">
-			<svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-			<div>테스트 Alert 입니다.</div>
-		</div>
+		<div id="testDiv"></div>
 
 		<button type="button" class="btn btn-sm btn-primary" id="showBtn">표시</button>
 		<button type="button" class="btn btn-sm btn-primary" id="hideBtn">닫기</button>
